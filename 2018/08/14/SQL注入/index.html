@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="#什么是SQL注入#SQL注入，就是通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令，比如很多影视网站泄露VIP会员密码大多就是通过WEB表单递交查询字符暴出的，这类表单特别容易受到SQL注入式攻击。SQL注入攻击是黑客对数据库进行攻击的常用手段之一。 SQL注入的原理 SQL注入攻击指的是通过构建特殊的输入作为参数传入Web应用程序，而">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL注入">
+<meta property="og:url" content="http://www.anonym1ty.cn/2018/08/14/SQL注入/index.html">
+<meta property="og:site_name" content="豆浆油条">
+<meta property="og:description" content="#什么是SQL注入#SQL注入，就是通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令，比如很多影视网站泄露VIP会员密码大多就是通过WEB表单递交查询字符暴出的，这类表单特别容易受到SQL注入式攻击。SQL注入攻击是黑客对数据库进行攻击的常用手段之一。 SQL注入的原理 SQL注入攻击指的是通过构建特殊的输入作为参数传入Web应用程序，而">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-15T14:50:43.270Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SQL注入">
+<meta name="twitter:description" content="#什么是SQL注入#SQL注入，就是通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令，比如很多影视网站泄露VIP会员密码大多就是通过WEB表单递交查询字符暴出的，这类表单特别容易受到SQL注入式攻击。SQL注入攻击是黑客对数据库进行攻击的常用手段之一。 SQL注入的原理 SQL注入攻击指的是通过构建特殊的输入作为参数传入Web应用程序，而">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.anonym1ty.cn/2018/08/14/SQL注入/"/>
+
+
+
+
+
+  <title>SQL注入 | 豆浆油条</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">豆浆油条</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.anonym1ty.cn/2018/08/14/SQL注入/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="豆浆油条">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="豆浆油条">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SQL注入</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-14T19:20:00+08:00">
+                2018-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="什么是SQL注入"><a href="#什么是SQL注入" class="headerlink" title="#什么是SQL注入#"></a>#什么是SQL注入#</h1><p></p><p>SQL注入，就是通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令，比如很多影视网站泄露VIP会员密码大多就是通过WEB表单递交查询字符暴出的，这类表单特别容易受到SQL注入式攻击。SQL注入攻击是黑客对数据库进行攻击的常用手段之一。</p><p></p>
+<h1 id="SQL注入的原理"><a href="#SQL注入的原理" class="headerlink" title="SQL注入的原理"></a>SQL注入的原理</h1><p><ul></ul></p>
+<p><li><p>SQL注入攻击指的是通过构建特殊的输入作为参数传入Web应用程序，而这些输入大都是SQL语法里的一些组合，通过执行SQL语句进而执行攻击者所要的操作，其主要原因是程序没有细致地过滤用户输入的数据，致使非法数据侵入系统。</p></li><br>  <li><p>根据相关技术原理，SQL注入可以分为平台层注入和代码层注入。前者由不安全的数据库配置或数据库平台的漏洞所致；后者主要是由于程序员对输入未进行细致地过滤，从而执行了非法的数据查询。基于此，SQL注入的产生原因通常表现在以下几方面：①不当的类型处理；②不安全的数据库配置；③不合理的查询集处理；④不当的错误处理；⑤转义字符处理不合适；⑥多个提交处理不当。<br></p></li><br></p>
+<h1 id="SQL注入的类型"><a href="#SQL注入的类型" class="headerlink" title="SQL注入的类型"></a>SQL注入的类型</h1><h1 id="按照注入点类型来分"><a href="#按照注入点类型来分" class="headerlink" title="按照注入点类型来分"></a>按照注入点类型来分</h1><h2 id="（1）-数字型注入点"><a href="#（1）-数字型注入点" class="headerlink" title="（1）    数字型注入点"></a>（1）    数字型注入点</h2><p>在web端大概是<code>http://xxx.com/news.php?id=1</code>这种形式，其注入点id类型为数字，所以叫数字型注入点。这一类的SQL语句原型大概为select <em> from 表名 where id=1。组合出来的SQL注入语句为`select </em> from news where id=1 and 1=1`。</p>
+<h2 id="（2）-字符型注入点"><a href="#（2）-字符型注入点" class="headerlink" title="（2）    字符型注入点"></a>（2）    字符型注入点</h2><p>在web端大概是<code>http://xxx.com/news.php?name=admin</code>这种形式，其注入点name类型为字符类型，所以叫字符型注入点。这一类的SQL语句原型大概为<code>select * from 表名 where name=’admin’</code>。注意多了引号，组合出来的SQL注入语句为<code>select * from news where name=’admin’ and ‘1’=’1</code>。<br><code>闭合单引号chr=’admin’ union select 1,2,3,4 and ‘1’=’1 chr=’admin’(闭合前面的单引号) union select 1,2,3,4 and ‘1’=’1</code></p>
+<h2 id="（3）-搜索型注入点"><a href="#（3）-搜索型注入点" class="headerlink" title="（3）    搜索型注入点"></a>（3）    搜索型注入点</h2><p>这是一类特殊的注入类型。这类注入主要是指在进行数据搜索时没过滤搜索参数，一般在链接地址中有”keyword=关键字”，有的不显示在链接地址里面，而是直接通过搜索框表单提交。此类注入点提交SQL语句，其原型大致为<code>select * from 表名 where 字段like ‘%关键字%’</code>。<br>组合出来的SQL注入语句为：<code>select * from news where search like ‘%测试%’ and ‘%1%’=’%1%’</code></p>
+<h1 id="按照数据提交的方式来分类"><a href="#按照数据提交的方式来分类" class="headerlink" title="按照数据提交的方式来分类"></a>按照数据提交的方式来分类</h1><p>（1）    GET注入<br>———————————————————————–提交数据的方式是GET，注入点的位置在GET参数部分。比如有这样的一个链接<code>http://xxx.com/news.php?id=1</code>,id是注入点。<br>原理：没有过滤GET请求中的参数信息中的非法字符。</p>
+<h2 id="（2）-POST注入"><a href="#（2）-POST注入" class="headerlink" title="（2）    POST注入"></a>（2）    POST注入</h2><p>使用POST方法提交数据，注入点位置在POST数据部分，常发生在表单中。<br>原理：没有过滤掉POST请求中的参数信息中的非法字符。<br>这里举一道南邮的例题，SQL注入1。<br>这题直接查看源码<br>![avatar][doge]<br>[doge]:data:image/png;base64,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<br>因为POST请求中未对参数信息进行非法字符过滤，可以直接通过输入admin’) – adds(任意字符)来获取flag。</p>
+<h2 id="（3）-Cookie注入"><a href="#（3）-Cookie注入" class="headerlink" title="（3）    Cookie注入"></a>（3）    Cookie注入</h2><p><ul></ul></p>
+<p><li><p>HTTP请求的时候会带上客户端的Cookie，注入点存在Cookie当中的某个字段中。</p></li></p>
+<p><li><p>原理：cookie注入的形成有两个必须条件，条件1是程序对get和post方式提交的数据进行了过滤，但未对cookie提交的数据库进行过滤。在条件1的基础上还需要程序对提交数据获取方式是直接request(“xxx”)的方式，未指明使用request对象的具体方法进行获取。</p></li><br></p>
+<h1 id="按照执行效果来分类"><a href="#按照执行效果来分类" class="headerlink" title="按照执行效果来分类"></a>按照执行效果来分类</h1><h2 id="（1）-基于布尔的盲注"><a href="#（1）-基于布尔的盲注" class="headerlink" title="（1）    基于布尔的盲注"></a>（1）    基于布尔的盲注</h2><p>可以根据返回页面判断条件真假的注入。<br>原理：基于布尔型SQL盲注即在SQL注入过程中，应用程序仅仅返回True（页面）和False（页面）。 这时，我们无法根据应用程序的返回页面得到我们需要的数据库信息。但是可以通过构造逻辑判断（比较大小）来得到我们需要的信息。<br>此类注入常用到的三种函数：</p>
+<ol>
+<li>mid()函数</li>
+</ol>
+<hr>
+<p><code>mid(string,start,length)</code><br>string(必需)规定要返回其中一部分的字符串。<br>start(必需)规定开始位置（起始值为1）。<br>length(可选)要返回的字符数。如果省略，则mid()函数返回剩余文本。</p>
+<ol start="2">
+<li>substr()函数</li>
+</ol>
+<hr>
+<p><code>substr(string,start,length)</code><br>string(必需)规定要返回其中一部分的字符串。<br>start(必需)规定在字符串的何处开始。<br>length(可选)规定被返回字符串的长度。<br>应用：<code>http://xxx.com/?id=1’ and ascii(substr((select database()),2,1))&gt;100#</code> （这里使用了ASCII判断）如果页面返回正常，则说明库的第二位大于ascii值大于100。</p>
+<ol start="3">
+<li>left()函数</li>
+</ol>
+<hr>
+<p><code>left(string,length)</code><br>string(必需)规定要返回其中一部分的字符串<br>length(可选)规定被返回字符串的前length长度的字符。<br>应用：<code>http://xxx.com/?id=1’ and left(database(),1)&lt;’t’#</code> 如果页面返回正常，则说明库的首字母应该小于t</p>
+<h2 id="（2）基于时间的盲注"><a href="#（2）基于时间的盲注" class="headerlink" title="（2）基于时间的盲注"></a>（2）基于时间的盲注</h2><p>即不能根据页面返回内容判断任何信息，用条件语句查看时间延迟语句是否执行（即页面返回时间是否增加）来判断。<br>原理：在我们注入了SQL代码之后，存在以下两种情况：<br>（1）    如果注入的SQL代码不影响后台（数据库）的正常功能执行，那么Web应用的页面显示正确（原始页面）。<br>（2）    如果注入的SQL代码影响后台（数据库）的正常功能（产生了SQL注入），但是此时Web应用的页面依旧显示正常（原因是Web应用程序采取了“重定向”或“屏蔽”措施）。<br>那么我们Web应用程序是否存在SQL注入？<br>面对这种情况，前面的基于布尔的SQL盲注就很难发挥作用了。这时，我们一般采用基于web应用响应时间上的差异来判断是否存在SQL注入，即基于时间型SQL盲注。<br>在基于时间型SQL盲注中，我们经常使用条件语句来判断我们的操作是否正确：<br>即if语句/if()函数。<br>在mysql中if语句的语法：<br><code>IF expression THEN
+        Statements;
+END IF;</code><br>即如果某条件发生，那么执行语句一；否则，执行语句二。<br>If()函数的语法如下：<br><code>IF(expr1,expr2,expr3)</code><br>即如果expr1的值为true,则返回expr2的值，如果expr1的值为false,则返回expr3的值<br>此类注入主要用到的函数有两种：</p>
+<ol>
+<li>sleep()函数</li>
+</ol>
+<hr>
+<p>sleep()函数可使代码执行延迟若干秒。<br>应用：<code>http://xxx.com/?id=1’ and if(ascii(substr(database(),1,1)&gt;116),1,sleep(5))#</code><br>如果我们的查询语句为真，那么直接返回结果；如果我们的查询语句为假，那么晚过5秒之后返回页面。所以我们就根据返回页面的时间长短来判断我们的查询语句是否执行正确，即我们的出发点就回到了之前的基于布尔的SQL盲注，也就是构造查询语句来判断结果是否为真。</p>
+<h2 id="（3）基于报错注入"><a href="#（3）基于报错注入" class="headerlink" title="（3）基于报错注入"></a>（3）基于报错注入</h2><p>即页面会返回错误信息，或者把注入的语句的结果直接返回在页面中。<br>应用：<code>select count(*),(concat(floor(rand()*2),(select version())))x from information_schema.tables group by x</code><br>floor:取float的整数值<br>rand:取0~1之间随机浮点值<br>group by：为聚合函数，根据一个或多个列对结果集进行分组并有排序功能<br><code>floor(rand()*2):rand为0~1,rand()*2为0~2</code>，那么整个语句就是取0，1，2三个数字。<br>也可写为：<code>select count(*),(concat(floor(rand(0)*2),(select version())))x from information_schema.tables group by x</code><br>其中rand()与rand(0)的区别为rand()生成的数据毫无规律，而rand(0)生成的数据则有规律可循 是：<code>0110 0110</code></p>
+<h2 id="（4）联合查询注入"><a href="#（4）联合查询注入" class="headerlink" title="（4）联合查询注入"></a>（4）联合查询注入</h2><p>前提条件：页面上有显示位<br>显示位的解释：在一个网站的正常页面，服务端执行SQL语句查询数据库中的数据，客户端将数据展示在页面中，这个展示数据的位置就叫显示位。<br>知道了在什么情况下使用联合注入之后，来看一看联合查询注入是如何实现的。</p>
+<ol>
+<li>判断有无注入点<br>（1）    在url后面加入<code>and 1=1 --+</code>执行，然后再写上<code>and 1=2 --+</code>执行，查看页面是否回显不同（回显不同说明这是一个整形注入），如果回显相同则可能存在字符注入。<br>（2）    在参数后面加上一个’看页面回显是否相同<br>（3）    \为转义符<br>（4）    -1/+1回显上一个或下一个页面（用于整形判断）<br>判断是整形注入还是字符型注入<br>数字型注入与字符型注入的最大区别在于<br>数字型不需要闭合，而字符型需要引号闭合。<br>知道了整型还是字符型注入之后，使用order by 函数来判断站点中字段数目<br>union的作用是将两个或多个select语句查询语句结果合并起来</li>
+<li>union必须由两条或两条以上的select语句组成，语句之间用关键字union分隔。</li>
+<li>union中的每个查询的列数必须相同。</li>
+<li>union会从查询结果集中自动去除了重复行<br>使用group_concat()函数可以让查询获得的数据组成一行不显示<br>例子：<br>`select group_concat(SCHEMA_NAME) from information_schema.SCHEMATA<pre><code>count()`函数用于统计个数（类似于表的个数，数据库的个数等等）
+例子：
+`select count(SCHEMA_NAME) from information_schema.SCHEMATA
+concat()`函数可以将多个字符串拼接在一起
+介绍一些获取数据库中的所有数据名，表名，列名，字段名常用指令
+`select schema_name from information_schema.schemata(获取数据库名)`
+`select table_name from information_schema.tables (获取表名)`
+`select column_name from information_schema.columns(获取所以列名)`
+</code></pre>（5）堆叠注入（堆查询注入）</li>
+</ol>
+<hr>
+<p>原理：<br>在SQL中，分号（；）是用来表示一条sql语句的结束。试想一下我们在;结束一个sql语句后继续构造下一条语句，会不会一起执行？因此这个想法也就造就了堆叠注入。而union injection(联合注入)也是将两条语句合并在一起，两者之间有什么区别么？区别就在于union 或者 union all 执行的语句类型是有限的，可以用来执行查询语句，而堆叠注入可以执行的是任意的语句。<br>例如，用户输入：1;DELETE FROM products服务器端生成的sql语句为：（因未对输入的参数进行过滤）<code>select * from products where productid=1;DELETE FROM products</code>当执行查询后，第一条显示查询信息，第二条则将整个表进行删除。<br>局限：<br>并不是每一个环境学都可以执行，可能受到API或者数据库引擎不支持的限制。<br>在MYSQL下使用堆叠注入查询数据： <code>select * from 表名 where id=1;select 1,2,3</code></p>
+<h1 id="SQL注入漏洞的修复"><a href="#SQL注入漏洞的修复" class="headerlink" title="SQL注入漏洞的修复"></a>SQL注入漏洞的修复</h1><h2 id="（1）-接收提交的参数，把特殊符号过滤掉"><a href="#（1）-接收提交的参数，把特殊符号过滤掉" class="headerlink" title="（1）    接收提交的参数，把特殊符号过滤掉"></a>（1）    接收提交的参数，把特殊符号过滤掉</h2><p>可以通过使用<code>mysql_real_escape_string()</code>函数对sql语句中的特殊字符进行转义。<br>受影响的字符有：<br><code>\x00 \n \r \ ‘ “ \x1a</code><br>如果成功，则该函数返回被转义的字符串。如果失败，则返回false。</p>
+<h2 id="（2）-采用sql语句预编译和绑定变量，防御sql注入。"><a href="#（2）-采用sql语句预编译和绑定变量，防御sql注入。" class="headerlink" title="（2）    采用sql语句预编译和绑定变量，防御sql注入。"></a>（2）    采用sql语句预编译和绑定变量，防御sql注入。</h2><p><code>String sql = &quot;select id, no from user where id=?&quot;;
+PreparedStatement ps = conn.prepareStatement(sql);
+ps.setInt(1, id);
+ps.executeQuery();</code><br>采用PreparedStatement，就会将SQL语句：<code>“select id,no from user where id=?”</code>预先编译好，也就是SQL引擎会预先进行语法分析，产生语法树，生成执行计划。后面输入的参数，无论输入的是什么，都不会影响sql语句的语法结构，因为语法分析已经完成了，而语法分析主要是分析sql命令，比如<code>select,from,where,and,or,order by</code>等等。所以即使后面输入这些sql命令，也不会当成sql命令来执行了，因为这些sql命令的执行，必须先通过语法分析，生成执行计划，既然语法分析已经完成，已经预编译过了，那么后面输入的参数，绝对不可能作为sql命令来执行的，只会被当做字符串字面值参数。</p>
+<h2 id="（3）-字符串替换"><a href="#（3）-字符串替换" class="headerlink" title="（3）    字符串替换"></a>（3）    字符串替换</h2><p>使用str_replace()函数对字符串变量的内容进行字符替换。<br>语法如下：str_replace(“需要替换的字段”,“替换为的字段”,”字符串内容”);<br>例如：<br><code>$id=$_GET[‘id’];
+$id=str_replace(“and”,” ”,$id);</code><br>这样一来，变量id字符串中的“and”被替换为空字符，可以理解为被删除了。<br>而这种方式只替换了一个字符，sql中的执行字符可能需要替换十几个字符。所以需要使用数组的方式，将字符替换封装为一个函数，便于在任何时候调用它。<br>例如：<br><code>function fliter_sql($value){
+$sql = array(“select”,”insert”,”updata”,”delete”);
+$sql_re=array(“ ”,” ”,” ”,” ”);
+return str_replace($sql,$sql_re,$value);
+}</code><br>类似这样的进行一些字符的过滤。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">豆浆油条</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是SQL注入"><span class="nav-number">1.</span> <span class="nav-text">#什么是SQL注入#</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL注入的原理"><span class="nav-number">2.</span> <span class="nav-text">SQL注入的原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL注入的类型"><span class="nav-number">3.</span> <span class="nav-text">SQL注入的类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#按照注入点类型来分"><span class="nav-number">4.</span> <span class="nav-text">按照注入点类型来分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#（1）-数字型注入点"><span class="nav-number">4.1.</span> <span class="nav-text">（1）    数字型注入点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（2）-字符型注入点"><span class="nav-number">4.2.</span> <span class="nav-text">（2）    字符型注入点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（3）-搜索型注入点"><span class="nav-number">4.3.</span> <span class="nav-text">（3）    搜索型注入点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#按照数据提交的方式来分类"><span class="nav-number">5.</span> <span class="nav-text">按照数据提交的方式来分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#（2）-POST注入"><span class="nav-number">5.1.</span> <span class="nav-text">（2）    POST注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（3）-Cookie注入"><span class="nav-number">5.2.</span> <span class="nav-text">（3）    Cookie注入</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#按照执行效果来分类"><span class="nav-number">6.</span> <span class="nav-text">按照执行效果来分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#（1）-基于布尔的盲注"><span class="nav-number">6.1.</span> <span class="nav-text">（1）    基于布尔的盲注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（2）基于时间的盲注"><span class="nav-number">6.2.</span> <span class="nav-text">（2）基于时间的盲注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（3）基于报错注入"><span class="nav-number">6.3.</span> <span class="nav-text">（3）基于报错注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（4）联合查询注入"><span class="nav-number">6.4.</span> <span class="nav-text">（4）联合查询注入</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL注入漏洞的修复"><span class="nav-number">7.</span> <span class="nav-text">SQL注入漏洞的修复</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#（1）-接收提交的参数，把特殊符号过滤掉"><span class="nav-number">7.1.</span> <span class="nav-text">（1）    接收提交的参数，把特殊符号过滤掉</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（2）-采用sql语句预编译和绑定变量，防御sql注入。"><span class="nav-number">7.2.</span> <span class="nav-text">（2）    采用sql语句预编译和绑定变量，防御sql注入。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（3）-字符串替换"><span class="nav-number">7.3.</span> <span class="nav-text">（3）    字符串替换</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">豆浆油条</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
