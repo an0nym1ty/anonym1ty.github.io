@@ -79,24 +79,45 @@
 
 
 
-<meta name="description" content="记一次宽字节注入的练习。 宽字节注入原理：GBK 占用两字节　　ASCII占用一字节　　PHP中编码为GBK，函数执行添加的是ASCII编码，MYSQL默认字符集是GBK等宽字节字符集。　　输入%df和函数执行添加的%5C，被合并成%df%5C。由于GBK是两字节，这个%df%5C被MYSQL识别为GBK。导致本应的%df\变成%df%5C。%df%5C在GBK编码中没有对应，所以被当成无效字符。">
+<meta name="description" content="0x00:文件上传漏洞原理0x01:pass-01源码：根据提示客户端使用js对不合法图片进行检查，而源码只对文件后缀进行了校验，可通过抓包来改文件后缀名。将此处改为.php即可绕过。 0x02:pass-02源码：这题对数据包MIME进行检查，只过滤了文件类型，没有过滤文件后缀名。可以通过抓包修改Content-Type进行绕过。 0x03:pass-05源码：这题过滤了大部分文件名，但没有对文">
 <meta property="og:type" content="article">
-<meta property="og:title" content="宽字节注入">
-<meta property="og:url" content="http://www.anonym1ty.cn/2018/08/16/宽字节注入/index.html">
+<meta property="og:title" content="文件上传">
+<meta property="og:url" content="http://www.anonym1ty.cn/2018/08/16/文件上传/index.html">
 <meta property="og:site_name" content="豆浆油条">
-<meta property="og:description" content="记一次宽字节注入的练习。 宽字节注入原理：GBK 占用两字节　　ASCII占用一字节　　PHP中编码为GBK，函数执行添加的是ASCII编码，MYSQL默认字符集是GBK等宽字节字符集。　　输入%df和函数执行添加的%5C，被合并成%df%5C。由于GBK是两字节，这个%df%5C被MYSQL识别为GBK。导致本应的%df\变成%df%5C。%df%5C在GBK编码中没有对应，所以被当成无效字符。">
+<meta property="og:description" content="0x00:文件上传漏洞原理0x01:pass-01源码：根据提示客户端使用js对不合法图片进行检查，而源码只对文件后缀进行了校验，可通过抓包来改文件后缀名。将此处改为.php即可绕过。 0x02:pass-02源码：这题对数据包MIME进行检查，只过滤了文件类型，没有过滤文件后缀名。可以通过抓包修改Content-Type进行绕过。 0x03:pass-05源码：这题过滤了大部分文件名，但没有对文">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/宽字节注入/1.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/宽字节注入/2.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/宽字节注入/3.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/宽字节注入/4.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/宽字节注入/5.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/宽字节注入/6.png">
-<meta property="og:updated_time" content="2018-08-16T01:36:45.156Z">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/1.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/2.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/3.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/4.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/5.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/6.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/7.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/8.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/9.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/10.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/11.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/12.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/13.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/14.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/15.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/16.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/17.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/18.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/19.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/20.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/21.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/22.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/23.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/24.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/25.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/26.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/27.png">
+<meta property="og:updated_time" content="2018-08-16T02:54:11.128Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="宽字节注入">
-<meta name="twitter:description" content="记一次宽字节注入的练习。 宽字节注入原理：GBK 占用两字节　　ASCII占用一字节　　PHP中编码为GBK，函数执行添加的是ASCII编码，MYSQL默认字符集是GBK等宽字节字符集。　　输入%df和函数执行添加的%5C，被合并成%df%5C。由于GBK是两字节，这个%df%5C被MYSQL识别为GBK。导致本应的%df\变成%df%5C。%df%5C在GBK编码中没有对应，所以被当成无效字符。">
-<meta name="twitter:image" content="http://www.anonym1ty.cn/2018/08/16/宽字节注入/1.png">
+<meta name="twitter:title" content="文件上传">
+<meta name="twitter:description" content="0x00:文件上传漏洞原理0x01:pass-01源码：根据提示客户端使用js对不合法图片进行检查，而源码只对文件后缀进行了校验，可通过抓包来改文件后缀名。将此处改为.php即可绕过。 0x02:pass-02源码：这题对数据包MIME进行检查，只过滤了文件类型，没有过滤文件后缀名。可以通过抓包修改Content-Type进行绕过。 0x03:pass-05源码：这题过滤了大部分文件名，但没有对文">
+<meta name="twitter:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/1.png">
 
 
 
@@ -126,14 +147,14 @@
 
 
 
-  <link rel="canonical" href="http://www.anonym1ty.cn/2018/08/16/宽字节注入/"/>
+  <link rel="canonical" href="http://www.anonym1ty.cn/2018/08/16/文件上传/"/>
 
 
 
 
 <link href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css" rel="stylesheet">
 
-  <title>宽字节注入 | 豆浆油条</title>
+  <title>文件上传 | 豆浆油条</title>
   
 
 
@@ -274,7 +295,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.anonym1ty.cn/2018/08/16/宽字节注入/">
+    <link itemprop="mainEntityOfPage" href="http://www.anonym1ty.cn/2018/08/16/文件上传/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="豆浆油条">
@@ -291,7 +312,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">宽字节注入</h1>
+          <h1 class="post-title" itemprop="name headline">文件上传</h1>
         
 
         <div class="post-meta">
@@ -303,7 +324,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-16T09:12:00+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-16T10:29:00+08:00">
                 2018-08-16
               </time>
             
@@ -321,7 +342,7 @@
 
           
           
-             <span id="/2018/08/16/宽字节注入/" class="leancloud_visitors" data-flag-title="宽字节注入">
+             <span id="/2018/08/16/文件上传/" class="leancloud_visitors" data-flag-title="文件上传">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -346,7 +367,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  579
+                  589
                 </span>
               
 
@@ -371,8 +392,14 @@
       
 
       
-        <p>记一次宽字节注入的练习。</p>
-<h2 id="宽字节注入原理："><a href="#宽字节注入原理：" class="headerlink" title="宽字节注入原理："></a>宽字节注入原理：</h2><p>GBK 占用两字节<br>　　ASCII占用一字节<br>　　PHP中编码为GBK，函数执行添加的是ASCII编码，MYSQL默认字符集是GBK等宽字节字符集。<br>　　输入%df和函数执行添加的%5C，被合并成<code>%df%5C</code>。由于GBK是两字节，这个<code>%df%5C</code>被MYSQL识别为GBK。导致本应的<code>%df\</code>变成<code>%df%5C</code>。<code>%df%5C</code>在GBK编码中没有对应，所以被当成无效字符。<br>　　<code>%DF</code> ：会被PHP当中的addslashes函数转义为<code>“%DF\&#39;”</code> ，<code>“\”</code>既URL里的<code>%5C</code>，那么也就是说，<code>“%DF&#39;”</code>会被转成<code>“%DF%5C%27”</code>倘若网站的字符集是GBK，MYSQL使用的编码也是GBK的话，就会认为<code>“%DF%5C%27”</code>是一个宽字符。也就是<code>“縗’”</code><br>题目地址：[题目传送]<br>[题目传送]:<a href="http://wpt5.xiniani.org/?id=1" target="_blank" rel="noopener">http://wpt5.xiniani.org/?id=1</a><br>做这题的时候充满了曲折，服务器原因，题目各种连不上，最后还是成功做出来了。<br>先来看看这题，题目刚进去就只有<br><img src="/2018/08/16/宽字节注入/1.png" alt="图片"><br>看见id=1可以联想到注入，可是试了各种方式都没用，经过ju5tw4nty0u师傅的提示，这题对单引号进行了转义，可以采用宽字节注入绕过。<br>于是先构造payload进行绕过单引号转义：<code>?id=1%D6%27%20AND 1=1--+</code>返回正常页面，再用<code>?id=1%D6%27%20AND 1=2--+</code>，则返回空白页面，说明我们成功的通过宽字节注入绕过了单引号转义。后面就是一些简单的注入过程，<br>先用order by查看字段数，发现存在3个字段，在第三个字段有q1005的库,payload:<br><code>http://wpt5.xiniani.org/?id=-1%DF%27%20union%20select%201,2,group_concat(schema_name)%20from%20information_schema.schemata--+</code><br><img src="/2018/08/16/宽字节注入/2.png" alt="图片"><br>再查看q1005的表名，payload:<br><code>http://wpt5.xiniani.org/?id=-1%DF%27%20union%20select%201,2,group_concat(table_name)%20from%20information_schema.tables%20where%20table_schema=0x7131303035--+</code><br><img src="/2018/08/16/宽字节注入/3.png" alt="图片"><br>再查看列，payload:<br><code>http://wpt5.xiniani.org/?id=-1%DF%27%20union%20select%201,2,group_concat(column_name)%20from%20information_schema.columns where table_name=0x7131303035--+</code><br><img src="/2018/08/16/宽字节注入/4.png" alt="图片"><br>查看字段，payload:<br><code>http://wpt5.xiniani.org/?id=-1%DF%27%20union%20select%201,2,group_concat(content)%20from%20q1005--+</code><br><img src="/2018/08/16/宽字节注入/5.png" alt="图片"><br>这个地方很坑，又遇见了熟悉的Hello,man!没看见flag，，，失败<br>最后只能去找找另一个表里的内容，同样的方法，在admin_ff表里找到一个用户名：<code>xinian</code>和密码：<code>c3cbd894ea3620ffceb088671363eda0</code><br>密码通过md5解密。然后通过登录得到flag<br><img src="/2018/08/16/宽字节注入/6.png" alt="图片"></p>
+        <h1 id="0x00-文件上传漏洞原理"><a href="#0x00-文件上传漏洞原理" class="headerlink" title="0x00:文件上传漏洞原理"></a>0x00:文件上传漏洞原理</h1><h1 id="0x01-pass-01"><a href="#0x01-pass-01" class="headerlink" title="0x01:pass-01"></a>0x01:pass-01</h1><p>源码：<br><img src="/2018/08/16/文件上传/1.png" alt="截图"><br>根据提示客户端使用js对不合法图片进行检查，而源码只对文件后缀进行了校验，可通过抓包来改文件后缀名。<br><img src="/2018/08/16/文件上传/2.png" alt="截图"><br>将此处改为.php即可绕过。<br><img src="/2018/08/16/文件上传/3.png" alt="截图"></p>
+<h1 id="0x02-pass-02"><a href="#0x02-pass-02" class="headerlink" title="0x02:pass-02"></a>0x02:pass-02</h1><p>源码：<br><img src="/2018/08/16/文件上传/4.png" alt="截图"><br>这题对数据包MIME进行检查，只过滤了文件类型，没有过滤文件后缀名。可以通过抓包修改Content-Type进行绕过。<br><img src="/2018/08/16/文件上传/5.png" alt="截图"><br><img src="/2018/08/16/文件上传/6.png" alt="截图"></p>
+<h1 id="0x03-pass-05"><a href="#0x03-pass-05" class="headerlink" title="0x03:pass-05"></a>0x03:pass-05</h1><p>源码：<br><img src="/2018/08/16/文件上传/7.png" alt="截图"><br>这题过滤了大部分文件名，但没有对文件名后缀进行统一大小写。可以使用大小写绕过黑名单。即上传一个.phP文件即可。<br><img src="/2018/08/16/文件上传/8.png" alt="截图"></p>
+<h1 id="0X04-pass-06"><a href="#0X04-pass-06" class="headerlink" title="0X04:pass-06"></a>0X04:pass-06</h1><p>源码：<br><img src="/2018/08/16/文件上传/9.png" alt="截图"><br>本题未对尾部空格进行过滤，抓包在文件末尾添加空格即可绕过。<br><img src="/2018/08/16/文件上传/10.png" alt="截图"><br><img src="/2018/08/16/文件上传/11.png" alt="截图"></p>
+<h1 id="0x05-pass-07"><a href="#0x05-pass-07" class="headerlink" title="0x05:pass-07"></a>0x05:pass-07</h1><p>源码：<br><img src="/2018/08/16/文件上传/12.png" alt="截图"><br>这题题目没有去除文件后缀的点，由于windows文件后缀名只有点时会被去除，可以抓包加点绕过。<br><img src="/2018/08/16/文件上传/13.png" alt="截图"><br>在上传的文件夹下可以看到，文件名为.php后面的点被去除了。<br><img src="/2018/08/16/文件上传/14.png" alt="截图"><br><img src="/2018/08/16/文件上传/15.png" alt="截图"></p>
+<h1 id="0x06-pass-08"><a href="#0x06-pass-08" class="headerlink" title="0x06:pass-08"></a>0x06:pass-08</h1><p>源码：<br><img src="/2018/08/16/文件上传/16.png" alt="截图"><br>本题没有去除字符串::$DATA，抓包添加::$DATA即可绕过，即上传test8.php::$DATA之后会变成test8.php。<br><img src="/2018/08/16/文件上传/17.png" alt="截图"><br>上传后在upload文件夹下为<br><img src="/2018/08/16/文件上传/18.png" alt="截图"><br><img src="/2018/08/16/文件上传/19.png" alt="截图"></p>
+<h1 id="0x07-pass-09"><a href="#0x07-pass-09" class="headerlink" title="0x07:pass-09"></a>0x07:pass-09</h1><p>源码：<br><img src="/2018/08/16/文件上传/20.png" alt="截图"><br>本题虽然对大小写、点等都进行了过滤，缺不够严谨只过滤了一次，因此可以构造文件名为<br>Test9.php. .<br><img src="/2018/08/16/文件上传/21.png" alt="截图"><br><img src="/2018/08/16/文件上传/22.png" alt="截图"></p>
+<h1 id="0x08-pass-10"><a href="#0x08-pass-10" class="headerlink" title="0x08:pass-10"></a>0x08:pass-10</h1><p>源码：<br><img src="/2018/08/16/文件上传/23.png" alt="截图"><br>这题中<code>$file_name = str_ireplace($deny_ext,&quot;&quot;, $file_name);</code>过滤了后缀名，可以通过构造后缀名为.pphphp来绕过。<br><img src="/2018/08/16/文件上传/24.png" alt="截图"><br>由于配置的环境问题，剩余的pass无法实现，这里对剩下的个人对文件上传的利用进行一些总结。<br>%00截断：<br>这类的文件上传通常可以通过构造文件名：文件名.php%00.jpg的方法绕过白名单的方式上传文件。<br>00截断：<br>截断的核心，就是chr(0)这个字符，这个字符不为空(Null)，也不是空字符(“”)，更不是空格！ 当程序在输出含有chr(0)变量时，chr(0)后面的数据会被停止，换句话说，就是误把它当成结束符，后面的数据直接忽略，这就导致漏洞产生 。<br>使用抓包工具进行改包<br><img src="/2018/08/16/文件上传/25.png" alt="截图"><br>然后将+的hex值2b改为00<br><img src="/2018/08/16/文件上传/26.png" alt="截图"><br><img src="/2018/08/16/文件上传/27.png" alt="截图"><br>之后释放包即可</p>
 
       
     </div>
@@ -397,8 +424,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/14/SQL注入/" rel="next" title="SQL注入">
-                <i class="fa fa-chevron-left"></i> SQL注入
+              <a href="/2018/08/16/宽字节注入/" rel="next" title="宽字节注入">
+                <i class="fa fa-chevron-left"></i> 宽字节注入
               </a>
             
           </div>
@@ -406,10 +433,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/16/文件上传/" rel="prev" title="文件上传">
-                文件上传 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -573,7 +596,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#宽字节注入原理："><span class="nav-number">1.</span> <span class="nav-text">宽字节注入原理：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0x00-文件上传漏洞原理"><span class="nav-number">1.</span> <span class="nav-text">0x00:文件上传漏洞原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x01-pass-01"><span class="nav-number">2.</span> <span class="nav-text">0x01:pass-01</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x02-pass-02"><span class="nav-number">3.</span> <span class="nav-text">0x02:pass-02</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x03-pass-05"><span class="nav-number">4.</span> <span class="nav-text">0x03:pass-05</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0X04-pass-06"><span class="nav-number">5.</span> <span class="nav-text">0X04:pass-06</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x05-pass-07"><span class="nav-number">6.</span> <span class="nav-text">0x05:pass-07</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x06-pass-08"><span class="nav-number">7.</span> <span class="nav-text">0x06:pass-08</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x07-pass-09"><span class="nav-number">8.</span> <span class="nav-text">0x07:pass-09</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x08-pass-10"><span class="nav-number">9.</span> <span class="nav-text">0x08:pass-10</span></a></li></ol></div>
             
 
           </div>
