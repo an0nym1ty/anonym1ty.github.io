@@ -1754,6 +1754,10 @@ pre .javascript .function {
   font-size: 14px;
   color: #999;
 }
+.site-author-image:hover {
+  -webkit-animation: rubberBand 1s;
+  animation: rubberBand 1s;
+}
 .site-state {
   overflow: hidden;
   line-height: 1.4;
@@ -1822,7 +1826,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #2a0fff;
+  background: #3924db;
 }
 .links-of-blogroll {
   font-size: 13px;
